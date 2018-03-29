@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/head" />
+<body>
+	<!-- Barra de Navegación superior -->
+	<nav th:replace="fragments/nav" />
+	<div class="container">
+		<h2 th:text="#{friendRequestH2.message}">Peticiones de Amistad</h2>
+		<form class="navbar-form" action="/friendRequest/list">
+		</form>
+		<p th:text="#{friendRequestP.message}">Los usuarios de la red social son los
+			siguientes:</p>
+		<div class="table-responsive">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th th:text="#{userListNameColumn.message}">Nombre</th>
+						<th class="col-md-1"></th>
+						<th class="col-md-1"></th>
+						<th class="col-md-1"></th>
+						<th class="col-md-1"></th>
+						<th class="col-md-1"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="fr : ${friendRequestsList}">
+						<td th:text="${fr.userEnvia.name}">Nombre del usuario</td>
+						<td><div>
+								<div>
+									<a th:id="${fr.userEnvia.id}" 
+									th:href="${'/friendRequest/' + fr.id + '/accept'}" th:text="#{friendRequestAccept.message}">Aceptar petición</a>
+								</div>
+							</div></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<footer th:replace="fragments/pagination"/>
+	</div>
+	<footer th:replace="fragments/footer" />
+</body>
+</html>

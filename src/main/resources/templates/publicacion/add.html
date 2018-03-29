@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/head" />
+<body>
+	<!-- Barra de Navegación superior -->
+	<nav th:replace="fragments/nav" />
+	<div class="container">
+		<h2 th:text="#{newPublication.message}">Crear publicación</h2>
+		<form class="form-horizontal" method="post" action="/publicacion/add" enctype="multipart/form-data" th:object="${publicacion}">
+		
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="titulo" th:text="#{publicationTitle.message}">Titulo:</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" name="titulo"
+						th:placeholder="#{publicationTitlePlaceholder.message}" required="true" /> <span
+						class="text-danger" th:if="${#fields.hasErrors('titulo')}"
+						th:errors="*{titulo}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="descripcion" th:text="#{publicationText.message}">Texto:</label>
+				<div class="col-sm-10">
+					<textarea rows="10" cols="40" class="form-control" name="descripcion"
+					th:placeholder="#{publicationTextPlaceholder.message}" required="true"></textarea>
+					<span class="text-danger" th:if="${#fields.hasErrors('descripcion')}"
+						th:errors="*{descripcion}" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="imagen" >Imagen:</label>
+				<div class="col-sm-10">
+					<input type="file" class="form-control" name="imagen" accept=".png, .jpg" />
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="submit" class="btn btn-primary" th:text="#{publicationButton.message}">Publicar</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<footer th:replace="fragments/footer" />
+</body>
+</html>

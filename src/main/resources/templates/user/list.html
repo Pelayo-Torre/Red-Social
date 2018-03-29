@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/head" />
+<body>
+	<!-- Barra de Navegación superior -->
+	<nav th:replace="fragments/nav" />
+	<div class="container">
+		<h2 th:text="#{userListH2.message}">Usuarios de la Red Social</h2>
+		<form class="navbar-form" action="/user/list">
+			<div class="form-group">
+				<input name="searchText" type="text" class="form-control" size="50"
+				th:placeholder="#{userListSearchInput.message}">
+			</div>
+			<button type="submit" class="btn btn-default" th:text="#{userListSearchBotton.message}">Buscar</button>
+		</form>
+		<p th:text="#{userListP.message}">Los usuarios de la red social son los
+			siguientes:</p>
+		<div class="table-responsive">
+			<table class="table table-hover" th:fragment="tableUsers"
+				id="tableUsers">
+				<thead>
+					<tr>
+						<th th:text="#{userListNameColumn.message}">Nombre</th>
+						<th>Email</th>
+						<th class="col-md-1"></th>
+						<th class="col-md-1"></th>
+						<th class="col-md-1"></th>
+						<th class="col-md-1"></th>
+						<th class="col-md-1"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="user : ${usersList}">
+						<td th:text="${user.name}">Nombre del usuario</td>
+						<td th:text="${user.email}">Email del usuario</td>
+						<td><div>
+							<div th:if="${user.validToRequestFriend() == 0}">
+								<a th:id="${user.id}" th:href="${'/user/send/' + user.id }" th:text="#{userListAddFriend}">Agregar amigo</a>
+							</div>
+							<div th:text="#{userListRequestSent.message}" th:if="${user.validToRequestFriend() == 1 }">Solicitud enviada
+							</div>
+							<div th:text="#{userListFriend.message}" th:if="${user.validToRequestFriend() == 2}"> Amigo
+							</div>
+							
+													
+							</div></td>
+						<td sec:authorize="hasRole('ROLE_ADMIN')">
+							<div>
+							<div th:if="${user.validToDelete()}">
+								<button type="button" th:id="${'deleteButton' + user.id}" class="btn btn-info" th:text="#{userListDeleteFriend}">Eliminar</button>
+								<script th:inline="javascript">
+									/*<![CDATA[*/
+									$( "#deleteButton[[${user.id}]]" ).click(function() {
+										$.get( "/user/delete/[[${user.id}]]", function( data ) {
+											var urlUpdate = '/user/list/update';
+											$("#tableUsers").load(urlUpdate);
+										});
+									});
+									/*]]>*/
+								</script>
+								
+							</div>						
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<footer th:replace="fragments/pagination"/>
+	</div>
+	<footer th:replace="fragments/footer" />
+</body>
+</html>

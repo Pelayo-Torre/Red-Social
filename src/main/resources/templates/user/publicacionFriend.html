@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/head" />
+<body>
+	<!-- Barra de Navegación superior -->
+	<nav th:replace="fragments/nav" />
+	<div class="container">
+		<h2  th:text="#{publicationListH2.message}" >Listado de Publicaciones</h2>
+		<p th:text="#{publicationListP.message}">Estas son tus publicaciones:</p>
+		<div class="table-responsive">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th th:text="#{publicationListTitle.message}">Título</th>
+						<th th:text="#{publicationListDate.message}">Fecha</th>
+						<th th:text="#{publicationListDescription.message}">Descripción</th>
+						<th>Imagen</th>
+						<th class="col-md-1"></th>
+						<th class="col-md-1"></th>
+						<th class="col-md-1"></th>
+						<th class="col-md-1"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="p : ${listFriends}">
+						<td style="width:250px"  th:text="${p.titulo}">Titulo de la publicacion</td>
+						<td style="width:250px"  th:text="${p.fecha}">Fecha de la publicacion</td>
+						<td style="width:250px"  th:text="${p.descripcion}">Descripción de la publicacion</td>
+						<td><img th:if="${p.file!=null}" th:src="${p.file}">
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<footer th:replace="fragments/footer" />
+</body>
+</html>
